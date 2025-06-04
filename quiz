@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Klimawandel Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .quiz-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 1rem 0;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: #80deea;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #4dd0e1;
+    }
+    #feedback {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    #result {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin: 0.25rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div id="quiz">
+      <div class="question" id="question"></div>
+      <ul id="options"></ul>
+      <input type="text" id="userAnswer" placeholder="Antwort hier eingeben..." />
+      <button onclick="submitAnswer()">Antwort überprüfen</button>
+      <div id="feedback"></div>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Was ist eine Hauptursache des Klimawandels?",
+        options: ["Plastikmüll im Ozean", "CO₂-Ausstoß durch Menschen", "Vulkanaktivität"],
+        correct: "co2-ausstoß durch menschen"
+      },
+      {
+        question: "Was versteht man unter dem Treibhauseffekt?",
+        options: ["Ein Effekt im Gewächshaus", "Erwärmung durch reflektierte Sonnenstrahlen", "Abkühlung durch Wind"],
+        correct: "erwärmung durch reflektierte sonnenstrahlen"
+      },
+      {
+        question: "Welche Energieform ist erneuerbar?",
+        options: ["Kohle", "Erdöl", "Sonnenenergie"],
+        correct: "sonnenenergie"
+      },
+      {
+        question: "Welche Folgen hat der Klimawandel?",
+        options: ["Mehr Regen überall", "Meeresspiegel steigt", "Weniger Stürme"],
+        correct: "meeresspiegel steigt"
+      },
+      {
+        question: "Wie kann man CO₂-Ausstoß reduzieren?",
+        options: ["Mehr Autofahren", "Plastik benutzen", "ÖPNV nutzen"],
+        correct: "öpnv nutzen"
+      },
+      {
+        question: "Was passiert mit den Polen durch den Klimawandel?",
+        options: ["Sie wachsen", "Sie schmelzen", "Sie werden kälter"],
+        correct: "sie schmelzen"
+      },
+      {
+        question: "Welches Land stößt weltweit am meisten CO₂ aus?",
+        options: ["Deutschland", "China", "Brasilien"],
+        correct: "china"
+      },
+      {
+        question: "Was bedeutet Klimaneutralität?",
+        options: ["Keine Wetterveränderung", "Ausgleich aller Emissionen", "Nur Solarenergie verwenden"],
+        correct: "ausgleich aller emissionen"
+      },
+      {
+        question: "Was ist ein CO₂-Fußabdruck?",
+        options: ["Die Schuhgröße", "Maß für CO₂-Verbrauch einer Person", "Spur im Schnee"],
+        correct: "maß für co2-verbrauch einer person"
+      },
+      {
+        question: "Wie kann jeder beim Klimaschutz helfen?",
+        options: ["Nichts tun", "Energie sparen", "Mehr Fleisch essen"],
+        correct: "energie sparen"
+      },
+      {
+        question: "Welche Note würdet ihr Emil und Felix geben?",
+        options: ["1", "2", "3"],
+        correct: "1"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      if (currentQuestion >= quizData.length) {
+        document.getElementById("quiz").style.display = "none";
+        document.getElementById("result").innerText = `Du hast ${score} von ${quizData.length} Punkten!`;
+        return;
+      }
+
+      const questionObj = quizData[currentQuestion];
+      document.getElementById("question").innerText = questionObj.question;
+      document.getElementById("userAnswer").value = "";
+      document.getElementById("feedback").innerText = "";
+
+      const optionsList = document.getElementById("options");
+      optionsList.innerHTML = "";
+      questionObj.options.forEach(option => {
+        const li = document.createElement("li");
+        li.textContent = option;
+        optionsList.appendChild(li);
+      });
+    }
+
+    function submitAnswer() {
+      const input = document.getElementById("userAnswer").value.trim().toLowerCase();
+      const correct = quizData[currentQuestion].correct.toLowerCase();
+
+      if (input === correct) {
+        document.getElementById("feedback").innerText = "✅ Richtig!";
+        score++;
+      } else {
+        document.getElementById("feedback").innerText = `❌ Falsch! Richtige Antwort: ${quizData[currentQuestion].correct}`;
+      }
+
+      currentQuestion++;
+      setTimeout(loadQuestion, 1500);
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
